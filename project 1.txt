@@ -1,0 +1,20 @@
+User id: 	Manika@atmax.co
+Pass:		 @tmaX_1551
+
+
+
+DML operation using following techs: 
+
+
+java, spring, mongo db.
+
+> Java 11 install
+> mongo db community version.
+> Gradle 6.1 Version.
+
+Spring - Gradle based, mongo db -> data insert , update, delete.
+
+
+
+mongodb:
+C:\Program Files\MongoDB\Server\5.0\bin\

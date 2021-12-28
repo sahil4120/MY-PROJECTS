@@ -1,0 +1,46 @@
+sonarqube with github:
+
+			Create a configuration
+				=====================
+Configuration name* : 
+(Give your configuration a clear and succinct name. This name will be used at project level to identify the correct configured GitHub App for a project.)
+
+GitHub.com->settings->developer settings->GitHub app->
+new app:
+
+App Name:  Sonar Cfg With Git Demo
+Homepage URL: http://localhost:8080/
+//Webhook URL: events will be posted
+Permissions:
+>	Read & write access to Checks New request
+
+>	Read-only access to Deployments New request
+
+>	Read-only access to Pages New request
+
+>	Read & write access to Pull requests New request
+
+>	Read-only access to Commit statusesSubscribe to
+
+> 	events:
+	Push
+
+Where can this GitHub App be installed?
+>	Any Account
+
+	Create
+	======
+
+-->Install App
+>	sahil4120   Install 
+	Install
+	=======
+	[Done]
+	go to Developer setting and check..
+
+-----------------------
+and now use the installed app information and fill Configuration Details
+
+
+
+	

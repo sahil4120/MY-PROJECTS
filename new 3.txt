@@ -1,0 +1,340 @@
+1. Spring Boot Runners:--
+=>A Runner is an auto-executable component which is called by container on
+application startup only once, to execute any logic (code) one time when application
+is started.
+
+CommandLineRunner(Legacy SB 1.0)
+ApplicationRunner : It is new type runner added in Spring boot 1.3 which
+makes easy to access arguments
+
+>If we are configures both Runner but not implements Ordered then by default
+Annotation based Configuration will be executed first.
+	To specify programmer defined order use
+	i>Interface : Ordered 
+			(OR)
+	ii>Annotation : @Order
+		EX: 
+		@Order(1)
+		@Order(Ordered.LOWEST_PRECEDENCE)
+	
+	
+Input Data to Runners using (CommandLineArguments):--
+Programmer can pass one time setup data using Command Line Arguments, in two
+formats.
+ a>Option Arguments
+ b>NonOption Arguments
+
+CommandLineRunner:
+Syntax : --key =val [Option Arguments]
+ Ex:-- --db=MySQL --db=Oracle
+ --env=prod --server.port=9876
+ etc…
+Syntax : data [NonOption Argument]
+
+ApplicationRunner:
+This will separate Option Arguments (as Map<String, List<String>>) and Non-Option
+Arguments (<List<String>)
+
+
+Q> What is the difference between CommandLineArgument and ApplicationRunner?
+A> Working process of CommandLineRunner and ApplicationRunner are same, but
+CommandLineRunner (CLR) holds data in String[] format where as Application
+(AR) holds data as ApllicationArguments as Option/Non-Option format
+
+CommandLineRunner Java Based Configuration:
+@Configuration
+public class AppConfig
+{
+	@Bean // 1.7 appr:
+	public CommandLineRunner getCLR1()
+	{
+		return new CommandLineRunner()
+		{
+			public void run(String... args)
+			{
+				System.out.println("Hello CommandLineRunner");
+			}
+		};
+	}
+	
+	@Bean // 1.8 appr:
+	public CommandLineRunner getCLR2()
+	{
+		return (args)->{
+			System.out.println("Hi CommandLineRunner");
+		}
+	}
+}	
+Predefined key Properties inputs for Spring Boot
+	https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#application-properties.core
+	
+	
+	NOTE:--
+a> Allowed special symbol are dot(.), dash(-) and underscore (_).
+b> Key=value both are String type, Spring supports both are String type, Spring
+supports type conversation (ex String->int) automatically.
+c> To read one key-value in code use Legacy syntax : @Value(“${key}”)
+	
+	
+	
+	NOTE:-- If key data is mismatched with variable data type, then Spring Container
+throws Exception : TypeMistchException : Failed to convert value.
+
+@Value("${my.info.product.start-key}"):Spring Will Search application.properties file -> once found ----
+---> loaded to Container --> Container store data as Environment obj -- > we can read data using -----
+--> Value("${})"-->[read, parse, assign to variable]  or env.getProperty() [read, parse]
+
+Internal flow:--
+Spring Boot will search for file “application.properties” in project (4 different locations)
+=>Once found (detected) then load into Container and store as “Environment” obj.
+2>We can read data in legacy style @Value or 2>env.getProeprty(..).
+
+
+
+Boot Style (Bulk Loading) can be done using Annotation. ****
+@ConfigurationProperties [read variable, list, map/properties, type obj]
+@ConfigurationProperties:--
+=>This Annotation is used to perform bulk data reading (multiple keys at a time) and
+parsing into one class type (Stores in project).
+=>Possible conversions are.
+a>1key = 1 variable
+b>Multiple keys with index = List/Set/Array
+c>Multiple keys with key-value format = Map or Properties
+d>Multiple keys with common type = Class Object (Has-A)	
+	
+	
+===>Spring Boot supports 4 default and priority order locations, which are loaded by
+container for key=val data.
+	
+	
+1> Under Project:-- Under Config folder:--
+Project/config/application.properties (file:./config/application.properties)
+2> Under Project (Only):--
+Project/application.properties (file: ./application.properties)
+3> Under Project (Under resources/config):--
+Project/src/main/resources/config/application.properties
+(classpath:/config/application.properties)
+3> Under “Project” folder:--
+Project/src/main/resource/application.properties
+(classpath:/application.properties)
+	
+	
+	SpringBootProject
+	|---src/main/resources
+	| 		|
+	|		|---application.properties [4]
+	|		|---config
+	|		|	  |---application-properties [3]
+	|---config		
+	|	  |--- application-properties [1]
+	|---application-properties [2]
+	
+	
+--> Spring Boot supports programmer defined Properties:
+> 
+	Run As
+		|...
+		|-> Run Configuration
+				| -> and provide option argument 
+							|-> apply and Run
+Ex:  --spring.config.name=mydata (user defined)
+NOTE:-- To avoid default location select priority order and select exact Properties file
+use option argument:
+Ex#1:-- --spring.config.location=classpath:/config/mydata.properties
+Ex#2:-- --spring.config.location=file:./config/mydata.properties
+
+
+YAML (YAMlian Language):--
+>It is representation style of key=val without duplicate levels in keys if they are
+lengthy and having common levels.
+=>File extension is “.yml”.
+=>It will hold data in below format
+ key : <space> value
+=>Default name used in Spring boot is application.yml.
+=>At least one space must be used but same should be maintaining under same level.
+=>Spring Boot System converts .yml to .properties using SnakeYaml API.
+=>Snake YAML will
+ a>Check for space and prefix levels
+ b.>Trace keys for data find.
+ c>Convert .yml to .properties internally system is while loading.
+ 
+ ex: application.properties:
+ my.code.id=56
+my.code.mdn.type=big
+my.code.str.service=ALL
+my.code.str.service.info=true
+my.code.mdn.obj=CRL
+my.code.cost=3.67
+my.code.mdn.sale=YES
+
+ex: application.yml
+my:
+ code:
+  id: 56
+  cost: 3.67
+  mdn:
+   type: big
+   obj: CRL
+   sale: YES
+  str:
+   service: ALL
+    info: true
+
+=>Key=value format List<DataType>/Set<DataType>/Array(<DataType>[]) Style:--
+=>In properties file we can use from zero.
+=>In yml file use just dash (-) with <space> value under same level.
+Ex:-- application.proeprties---
+my.code.version[0]=V1
+my.code.version[1]=V2
+my.code.version[2]=V3
+---application.yml:---
+my:
+ code:
+ version:
+ -V1
+ -V2
+ -V3
+ 
+=>Key=value format Map/Properties Style:--
+=>Consider below example:--	
+
+=>Its equal properties file will be
+Ex:-- application.properties
+my.data.model.a1=6.6
+my.data.model.a2=8.6
+my.data.model.a3=9.6
+
+=>Its equal : application.yml file
+my:
+ data:
+ model:
+ a1: 6.6
+ a2: 8.6
+ a3: 9.6
+
+
+Priority Order for key Search:--
+=>Spring boot has provided default priority to “Option Arguments” (Command Line
+Args).
+1>With format –key=value
+2>If not found, next level is .properties. [all above 4 locations]
+3>else finally chosen .yml
+4>No-where found default value
+but not given any Exceptions.
+
+
+---> @ConfigurationProperties             vs                  @Value
+page 41
+
+--> PROFILES:
+
+5. Spring Boot Profiles:--
+=>In RealTime, Application is
+ Developed in =>Dev Environment
+ Tested in =>Quality Analyst (QA) Environment
+ Maintained in =>PROD Environment
+ Client tested in =>UAT Environment
+ Go live in =>Cloud / prod Environment
+***>Environment is place where our application is running or what is current state of
+application
+
+Example:-- dev= development
+ QA = Quality Analysis,
+ MS = Management Service,
+ PROD = Production
+ UAT = User acceptance Testing
+ Cloud = Cloud Environment
+
+
+=>In this case we should not modify existed properties file, use new one with key=val
+data. File naming rule is:
+application-{profile}.properties
+application-{profile}.yml (or 3 dash)
+
+ex:
+                   ============================================================================
+					Profile Code  |	 Properties File	 			|	Class level Annotation
+				   ---------------|---------------------------------|--------------------------
+					Default		  |	 application.properties 		|	@Profile(“default”)   
+								  |                                 |
+					Prod 		  |	 application-prod.properties 	|	@Profile(“prod”)
+					              |                                 |
+					Uat 		  |	 application-uat.properties 	|	@Profile(“uat”)
+					              |                                 |
+					Qa 			  |	 application-qa.properties 		|	@Profile(“qa”)
+					              |                                 |
+					Cloud 		  |	 application-cloud.properties 	|	@Profile(“cloud”)
+				   =============================================================================
+NOTE:--
+1>Use key spring.profiles.active=profile
+=>We can provide using 3 ways. Those are
+a> Command Line Arguments (Option Arguments)
+Ex:-- --spring.profiles.active=prod
+b>In application.proeprties
+ Ex:-- spring.profiles.active=prod
+b> VM (JVM/System) Argument:--
+Ex:-- -Dspring.profiles.active=prod
+=>Right click on Starter class => Run As=>
+Run Config =>Choose Arguments
+=>Enter below format in VM Arguments
+ -Dspring.profiles.active=prod
+=>apply and Run
+
+
+Including Child Profiles:--
+=>In spring Boot applications active profile can be specified using key
+ Ex: --spring.profiles.active=[----]
+=>In this case one properties file is loaded into memory which may have more set of
+key=value pairs.
+=>These can be divided into multiple child properties file and loaded through active
+profile, also called as “Profiles Include”.
+=>This can be done using key spring.profiles.include=-,-,-,-
+
+
+
+
+
+
+
+Spring Container will load:--
+=>Parent (main) Profiles first (all its key=value pairs)
+=>Then child profiles in given order will be loaded.
+=>For above example, priority for loading (loading order is)
+ a>application-prod.properties
+ b>application-pemail.properties
+ c>application-db.properties
+ 
+ 
+ 
+ 
+ page 51
+ 
+ Profiles using YAML:--
+=>YAML Files also works same as Properties file for both “active and include” profiles.
+=>File Naming Rule:-
+application-{profile}.yml
+Example:--
+application.yml (default)
+application-prod.yml (prod)
+application-uat.yml (uat)
+
+
+
+
+
+
+
+====>pg 61
+
+ Spring Boot Starter class Concepts:--
+=>Spring Boot Starter class uses run (..) method from class “SpringApplication”
+defined in package : org.springframework.boot which creates Spring container using
+“AnnotationConfigApplicationContext (C)”
+
+
+@SpringBootApplication is having @Component annotation internally
+
+
+
+
+

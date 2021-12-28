@@ -1,0 +1,28 @@
+3 tech:
+aws
+paymax
+incentmax
+mongodb
+spring boot 
+mongodb
+crud
+
+logs code
+vali
+======================================================
+REST Api calls only no view Part
+emial shoulud unique
+Project : MyFACEBOOK
+API : JSON Format 
+1. Registration [ email, password, age, phone number ]. || Response
+2. Login | email, password
+
+Paymax, Incentmax
+AWS
+Tech : java 11, mongo db, spring boot
+gradle
+LOGs code 
+Put validation on form
+Login, Logout, Post Create, Post Delete
+
+======================================================= 

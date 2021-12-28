@@ -1,0 +1,49 @@
+Sonarqube with GitHub:
+
+			Create a configuration
+			=====================
+Configuration name* : 
+(Give your configuration a clear and succinct name. This name will be used at project level to identify the correct configured GitHub App for a project.)
+
+				Before you start pls create GitHub App:
+				Path:	GitHub.com->settings->developer settings->GitHub app->
+						new app:
+
+					*App Name:  
+					*Homepage URL: ex: http://localhost:8080/
+					[O]Webhook URL: events will be posted
+					*Callback Url:
+					Permissions:
+					>	Read & write access to Checks New request
+
+					>	Read-only access to Deployments New request
+
+					>	Read-only access to Pages New request
+
+					>	Read & write access to Pull requests New request
+
+					>	Read-only access to Commit statusesSubscribe to
+
+					> 	events:
+						Push
+
+					Where can this GitHub App be installed?
+					>	Any Account
+
+						Create
+						======
+
+					-->Install App
+					>	[your acc]   Install 
+						Install
+						=======
+						[Done]
+						go to Settings --> Developer setting and check GitHub App Info...
+
+
+
+and now use the Installed GitHub App information and fill Configuration Details
+
+
+
+	---------> Sahil please add about sonarlint also.....

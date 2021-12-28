@@ -1,0 +1,206 @@
+--> show dbs
+
+--> use db_name
+ex:
+use atmaxdb
+to insert single data:
+
+-->  db.atmaxdata.insertOne({name:"ReactJS", type:"FE",videos:"80", active:true})
+
+active db:
+--> db
+
+-->show collections
+ atmaxdata
+
+--> db.atmaxdata.find()
+{ "_id" : ObjectId("61811f546f8f9bcf7fc8e16d"), "name" : "ReactJS", "type" : "FE", "videos" : "80", "active" : true }
+
+
+-->  db.atmaxdata.find().pretty()
+{
+        "_id" : ObjectId("61811f546f8f9bcf7fc8e16d"),
+        "name" : "ReactJS",
+        "type" : "FE",
+        "videos" : "80",
+        "active" : true
+}
+
+CRUD operations:
+===================
+CREATE/INSERT:
+
+> db.atmaxdata.insertOne({k1:V1,...,kn:Vn})
+
+> db.atmaxdata.insertMany([{name:"Java", type:"BE", videos:50,active:true} , {name:"CSS",type:"FE",videos:"20",active:false}]);
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("61812329829b597c707b1f1b"),
+                ObjectId("61812329829b597c707b1f1c")
+        ]
+}
+
+READ:
+
+db.collection.find(query,        projection)
+                   (condition),   (should show or not)
+
+> db.collection.find()
+> db.collection.find().pretty()
+> db.atmaxdata.find({name:"CSS"}).pretty()
+{
+        "_id" : ObjectId("61812329829b597c707b1f1c"),
+        "name" : "CSS",
+        "type" : "FE",
+        "videos" : "20",
+        "active" : false
+}
+
+> db.atmaxdata.find({name:"CSS"},{name:1}).pretty()
+
+{ "_id" : ObjectId("61812329829b597c707b1f1c"), "name" : "CSS" }
+
+> db.atmaxdata.find({name:"CSS"},{_id:0,name:1}).pretty()
+{ "name" : "CSS" }
+
+
+>  db.atmaxdata.find({active:true}).pretty().limit(1)
+  {
+        "_id" : ObjectId("61811f546f8f9bcf7fc8e16d"),
+        "name" : "ReactJS",
+        "type" : "FE",
+        "videos" : "80",
+
+		or
+db.atmaxdata.findOne({active:true})
+{
+        "_id" : ObjectId("61811f546f8f9bcf7fc8e16d"),
+        "name" : "ReactJS",
+        "type" : "FE",
+        "videos" : "80",
+
+
+>> db.atmaxdata.find({active:true}).pretty().limit(1).skip(1)
+{
+        "_id" : ObjectId("61812329829b597c707b1f1b"),
+        "name" : "Java",
+        "type" : "BE",
+        "videos" : 50,
+        "active" : true
+}
+
+
+UPDATE:
+========
+
+db.collection.updateOne(<filter>,<update>)
+db.collection.updateMany(<filter>,<update>)
+
+>db.atmaxdata.updateOne({name:"Java"}, {$set: {type:"Full Stack"} } )
+> db.atmaxdata.updateMany({type:"FE"}, {$set: {active:false} } )
+
+DELETE:
+=======
+
+DB.COLLECTION.deleteMany(deletion_critria)
+
+> db.atmaxdata.deleteMany({type:"Full Stack"})
+
+all deleted:
+> db.atmaxdata.deleteMany({})
+
+
+
+--> 
+Select only one col:
+> db.atmaxdata2.find({LastName:"Sharma"})
+{ "_id" : ObjectId("618a112401abf836ca382859"), "FirstName" : "Sahil", "LastName" : "Sharma" }
+> db.atmaxdata2.find({LastName:"Sharma"},{LastName:0})
+{ "_id" : ObjectId("618a112401abf836ca382859"), "FirstName" : "Sahil" }
+> db.atmaxdata2.find({LastName:"Sharma"},{LastName:1})
+{ "_id" : ObjectId("618a112401abf836ca382859"), "LastName" : "Sharma" }
+
+-->> db.socialbook.find({Password:"123"},{Age:0,Email:0,PhoneNo:0}).pretty()
+{ "_id" : ObjectId("618a54ad36048a25815d6670"), "Password" : "123" }
+>
+
+Java with MongoDB:
+===================
+Let's see the analogies between Mongo and a traditional MySQL system:
+
+> Table in MySQL becomes a Collection in Mongo
+> Row becomes a Document
+> Column becomes a Field
+> Joins are defined as linking and embedded documents
+
+
+
+
+=============================================================================================================
+
+===========================================================
+All optr and operations: https://docs.mongodb.com/manual/reference/operator/query/ |
+===========================================================
+Select All Documents in a Collection:
+
+
+=>
+db.inventory.find( {} )
+SELECT * FROM inventory
+
+=> Equality Condition:
+db.inventory.find( { status: "D" } )
+SELECT * FROM inventory WHERE status = "D"
+
+==> in optr:
+db.inventory.find( { status: { $in: [ "A", "D" ] } } )
+SELECT * FROM inventory WHERE status in ("A", "D")
+
+
+==> AND condition:
+db.inventory.find( { status: "A", qty: { $lt: 30 } } )
+SELECT * FROM inventory WHERE status = "A" AND qty < 30
+
+
+==>OR condition:
+db.inventory.find( { $or: [ { status: "A" }, { qty: { $lt: 30 } } ] } )
+SELECT * FROM inventory WHERE status = "A" OR qty < 30
+
+
+====>    Mongo Dump Restore:
+
+> Copy Paste Dump Folder in Mongo's bin folder:ex: C:\Program Files\MongoDB\Server\5.0\bin\dump
+> download mongo tools and again Copy  files available inside  bin folder, ex: mongodb-database-tools-windows-x86_64-100.5.1\mongodb-database-tools-windows-x86_64-100.5.1\bin\...
+  and paste into  Mongo's bin, ex: C:\Program Files\MongoDB\Server\5.0\bin\
+  and now run: 
+>C:\Program Files\MongoDB\Server\5.0\bin\                 mongorestore dump_folder_name
+                                                        =================================
+and we are done...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,3 @@
+BUILD PATH > CONFIGURATION BULD PATH >	 ADD LIBRARY > Server Runtime >Apache Tomcat
+
+src/main and resource will come
