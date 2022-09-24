@@ -1,0 +1,18 @@
+Take the following example:
+
+var num = 0;
+var result = 0;
+The following:
+
+result = num++; 
+Is equal to saying:
+
+result = num;
+num = num + 1;
+On the other hand, this:
+
+result = ++num;
+Is more equitable with this:
+
+num = num + 1;
+result = num;
