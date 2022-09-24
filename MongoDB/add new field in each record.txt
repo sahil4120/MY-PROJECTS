@@ -1,0 +1,14 @@
+db.collection.update({},{$set:{fieldName:value}},{upsert:false,multi:true})
+
+
+db.collection.update({field:"value"},{$set:{fieldName:value}},{upsert:false,multi:true})
+{field:"value"}: if matches then insert
+
+
+example: 
+db.currency_master.update({},{$set:{_class:"api.atmax.currency.model.CurrencyMaster"}},{upsert:false,multi:true})
+
+
+
+db.incentive.update({rolledUpManager:{$exists:false}},{$set:{rolledUpManager:false}},{upsert:false,multi:true})
+{orgId:"622614ac96c3dd25d7144e73", incentive_periodicity:"monthly", rolledUpManager:false}

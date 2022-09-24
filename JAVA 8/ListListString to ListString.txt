@@ -1,0 +1,14 @@
+List<Integer> years = managerIncentives.stream()
+				.map(incentive -> incentive.getReporteeIncentives().stream()
+						.map(reportee -> Integer.parseInt(reportee.getYear())).collect(Collectors.toList())) // List<List<String>>
+				.flatMap(List::stream) // List<String>
+				.collect(Collectors.toList());
+
+
+
+
+Java 8 Stream – Convert List<List<String>> to List<String>
+
+From <https://mkyong.com/java/java-8-stream-convert-listliststring-to-liststring/> 
+
+

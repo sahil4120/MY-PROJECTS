@@ -1,0 +1,24 @@
+https://www.nielit.gov.in/gorakhpur/sites/default/files/Gorakhpur/ALEVEL_1_DBTECH_08_June_2020_IL.pdf
+
+
+
+C:\Program Files\MongoDB\Server\5.0\bin>mongoexport --db atmax-qa --collection incentive --type=json --out d:\result-all.json
+
+
+
+some more ex:
+C:\Program Files\MongoDB\Server\5.0\bin>mongoexport --db atmax-qa --collection parameter --type=json --out d:\MANAGER\parameter-qa.json
+2022-08-18T13:39:46.186+0530    connected to: mongodb://localhost/
+2022-08-18T13:39:46.246+0530    exported 218 records
+
+C:\Program Files\MongoDB\Server\5.0\bin>mongoexport --db atmax-qa --collection parameter --type=json --out d:\parameter-qa.json
+2022-08-18T13:40:05.023+0530    connected to: mongodb://localhost/
+2022-08-18T13:40:05.078+0530    exported 218 records
+
+C:\Program Files\MongoDB\Server\5.0\bin>mongoexport --db atmax-qa --collection achievement --type=json --out d:\MANAGER\achievement-qa.json
+2022-08-18T13:41:09.658+0530    connected to: mongodb://localhost/
+2022-08-18T13:41:09.717+0530    exported 139 records
+
+C:\Program Files\MongoDB\Server\5.0\bin>mongoexport --db atmax-qa --collection incentive_parameter --type=json --out d:\MANAGER\ip-qa.json
+2022-08-18T13:41:44.321+0530    connected to: mongodb://localhost/
+2022-08-18T13:41:44.357+0530    exported 105 records

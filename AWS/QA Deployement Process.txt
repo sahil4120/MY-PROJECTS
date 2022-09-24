@@ -1,0 +1,3 @@
+Deployement into QA:
+
+jenkins -> api deployement job --click---> develop ---open drop-down---> build with parameter ---> qa---> select : build and backup option ---> build 

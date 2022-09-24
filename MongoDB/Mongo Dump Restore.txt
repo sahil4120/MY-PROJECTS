@@ -1,0 +1,13 @@
+====>    Mongo Dump Restore:
+
+> Copy Paste Dump Folder in Mongo's bin folder:ex: C:\Program Files\MongoDB\Server\5.0\bin\dump
+> download mongo tools and again Copy  files available inside  bin folder, ex: mongodb-database-tools-windows-x86_64-100.5.1\mongodb-database-tools-windows-x86_64-100.5.1\bin\...
+  and paste into  Mongo's bin, ex: C:\Program Files\MongoDB\Server\5.0\bin\
+  and now run: 
+>C:\Program Files\MongoDB\Server\5.0\bin\                 mongorestore dump_folder_name
+                                                        =================================
+and we are done...
+
+
+example:
+mongorestore atmax-stage-dump

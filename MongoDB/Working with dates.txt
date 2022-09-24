@@ -1,0 +1,29 @@
+2022, sep
+
+date = 30-sep-2022;
+Date =Fri Sep 30 00:00:00 IST 2022
+
+
+start date = Thu Apr 01 05:30:00 IST 2021
+
+end date = Fri Mar 31 05:30:00 IST 2023
+Query: start date <= selected date and 
+	  end date >= selected date	 
+
+
+{orgId:"61b31ef589e4143c447c1977", start_date:{$lte:"Fri Sep 30 00:00:00 IST 2022"}, end_date:{$gte:"Fri Sep 30 00:00:00 IST 2022"}}
+
+
+{orgId:"61b31ef589e4143c447c1977",start_date:{$lte:ISODate('Fri Sep 30 00:00:00 IST 2022')}}
+
+{orgId:"61b31ef589e4143c447c1977", start_date:{$gte:ISODate("2021-01-01"),$lte:ISODate("2020-05-01")}}
+
+{orgId:"61b31ef589e4143c447c1977", start_date:{$lte:?1},end_date:{$gte:?1}}
+
+{orgId:"61b31ef589e4143c447c1977", start_date:{$gte:ISODate("2022-09-30")}}
+
+{orgId:"61b31ef589e4143c447c1977", start_date:{$lte:ISODate("2022-09-30")},end_date:{$gte:ISODate("2022-09-30")}}
+
+{orgId:"61b31ef589e4143c447c1977", $and:[{start_date:{$lte:ISODate("2022-09-30")}},{end_date:{$gte:ISODate("2022-09-30")}}]}
+
+

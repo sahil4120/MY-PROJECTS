@@ -1,0 +1,11 @@
+
+https://stackoverflow.com/questions/6851933/how-to-remove-a-field-completely-from-a-mongodb-document
+
+db.incentive.update({start_date:{$lt:ISODate("2022")}}, {$unset: {words:1}} , {multi: true});
+
+
+
+db.incentive.update({start_date:{$lt:ISODate("2022")}}, {$unset: {rolledUpManager:false}} , {multi: true});
+
+
+db.example.update({}, {$unset: {words:1}} , {multi: true});
