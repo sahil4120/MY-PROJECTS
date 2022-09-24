@@ -1,8 +1,0 @@
-jenkins: prod back -> build now,
-				console
-	
-AWS Dashboard	: atmax db backup - > dump down
-
-atmax
-radhika
-Radheyatmax@1234567
