@@ -1,1 +1,0 @@
-mongodb://admin_mongo:BjaoMhvryQ6ygn7p@cluster1-shard-00-00.uxsbt.mongodb.net:27017,cluster1-shard-00-01.uxsbt.mongodb.net:27017,cluster1-shard-00-02.uxsbt.mongodb.net:27017/atmax10?authSource=admin&replicaSet=atlas-gltje3-shard-0&readPreference=primary&ssl=true&tls=true
