@@ -1,0 +1,105 @@
+@ResponseStatus(value = HttpStatus.OK)
+	@PostMapping("/verify-password")
+	public RestResponse<VerifyPasswordResponseDTO> verifyPassword(@RequestBody ChangePasswordDTO dto,
+			Authentication authentication, HttpServletRequest request) {
+		String email = authentication.getName();
+		log.info("********* Verifying Password of {} ************", email);
+//		throwIfUserReachedMaxCallLimit(request); // Way one
+		doCaching(request); // ways two
+		VerifyPasswordResponseDTO data = null;
+		int verificationStatus = service.isUserVerfiedOrNot(email, dto.getPassword());
+		if (verificationStatus == 1) {
+			data = VerifyPasswordResponseDTO.of(verificationStatus);
+			return RestResponse.of(data, env.getProperty(Constants.VALID_PASSWORD), RestAPICode.OK_STATUS_CODE,
+					LocalDateTime.now(), Collections.emptyList());
+		}
+		data = VerifyPasswordResponseDTO.of(verificationStatus);
+		log.debug("********* Password verified {} ************", email);
+		return RestResponse.of(data, env.getProperty(Constants.INVALID_PASSWORD), RestAPICode.OK_STATUS_CODE,
+				LocalDateTime.now(), Collections.emptyList());
+	}
+
+	private void doCaching(HttpServletRequest request) {
+		String token = jwtTokenProvider.resolveToken(request);
+		log.info("Token  {}", token);
+		if (isUserLoggedIn(token)) {
+			if (cacheHasNotToken(cache)) {
+				putCache(token, cache);
+			} else {
+				String cacheToken = cache.get("token");
+				if (cacheToken.equals(token)) {
+					int accessCount = Integer.parseInt(cache.get("count"));
+					log.info("accessCount {}", accessCount);
+					if (isRequestExceededMaxAccessCount(accessCount)) {
+						throw new ValidationFailureException("You cannot verify password please login again!");
+					} else {
+						accessCount++;
+						cache.put("count", accessCount + "");
+					}
+				} else {
+					putCache(token, cache);
+				}
+
+			}
+
+		} else {
+			throw new ValidationFailureException("please log in!");
+		}
+	}
+
+	private boolean isRequestExceededMaxAccessCount(int accessCount) {
+		return accessCount >= 3;
+	}
+	private boolean isUserLoggedIn(String token) {
+		return Objects.nonNull(token);
+	}
+	
+	private boolean cacheHasNotToken(Map<String,String> cache) {
+		return Objects.isNull(cache.get("token"));
+	}
+	
+	private void putCache(String token,Map<String, String> cache) {
+		cache.put("token",token);
+		cache.put("count", "1");
+	}
+	private void throwIfUserReachedMaxCallLimit(HttpServletRequest request) {
+		log.info("**** throwIfUseReachedMaxCallLimit ****");
+		String token = jwtTokenProvider.resolveToken(request);
+		log.info("Token  {}", token);
+		if (Objects.nonNull(token))
+			canAccesOrThrow(token, request);
+		else
+			throw new ValidationFailureException("please log in!");
+	}
+
+	private void canAccesOrThrow(String token, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Object attribute = session.getAttribute("token");
+		if (Objects.isNull(attribute))
+			setSessionAttribute(session, token);
+		else
+			canAccess(token, session);
+	}
+
+	private void canAccess(String token, HttpSession session) {
+		String sessionToken = session.getAttribute("token").toString();
+		log.info("Access Count :::{} ", session.getAttribute("count"));
+		if (token.equals(sessionToken))
+			throwIfCannotAccess(session);
+		else
+			setSessionAttribute(session, token);
+	}
+
+	private void throwIfCannotAccess(HttpSession session) {
+		int count = Integer.parseInt(session.getAttribute("count").toString());
+		if (count >= 3)
+			throw new ValidationFailureException("You cannot verify password please login again!");
+		else
+			count++;
+		session.setAttribute("count", count);
+	}
+
+	private void setSessionAttribute(HttpSession session, String token) {
+		session.setAttribute("token", token);
+		session.setAttribute("count", 1);
+	}

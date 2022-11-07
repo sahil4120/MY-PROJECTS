@@ -1,0 +1,11 @@
+https://stackoverflow.com/questions/20700053/how-to-add-local-jar-file-dependency-to-build-gradle-file
+
+
+1.  create "libs" folder at project level
+2.  add jar in libs
+3.  add implementation files('libs/*.jar') or implementation files('libs/<name>.jar') in build.gradle file
+	example:
+	dependencies {
+    		implementation files('libs/something_local.jar')
+	}
+4. and build the project

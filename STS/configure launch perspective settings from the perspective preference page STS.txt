@@ -1,0 +1,4 @@
+Automatically changing Eclipse perspective when launching an application
+
+
+https://stackoverflow.com/questions/29537699/automatically-changing-eclipse-perspective-when-launching-an-application

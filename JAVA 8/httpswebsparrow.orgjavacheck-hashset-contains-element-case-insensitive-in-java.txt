@@ -1,0 +1,15 @@
+httpswebsparrow.orgjavacheck-hashset-contains-element-case-insensitive-in-java
+
+
+https://stackoverflow.com/questions/24558456/java-setstring-equality-ignore-case
+
+
+https://coderanch.com/t/687154/java/HashSet-case-insensitive
+
+
+https://www.geeksforgeeks.org/how-to-make-java-regular-expression-case-insensitive-in-java/
+
+
+
+
+
